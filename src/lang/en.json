@@ -1,0 +1,9 @@
+{
+  "k4.general.prefix": "{silver}[ {lime}K4-WeaponPurchase {silver}]",
+  "k4.weaponpurchase.not_enough_money": "{lightred}You don't have enough money to buy this weapon! ({0} needed)",
+  "k4.weaponpurchase.grenade_limit": "{lightred}You can't carry any more grenades! (Limit: {0})",
+  "k4.weaponpurchase.flashbang_limit": "{lightred}You can't carry any more flashbangs! (Limit: {0})",
+  "k4.weaponpurchase.default_limit": "{lightred}You can't carry any more of this grenade type! (Limit: {0})",
+  "k4.weaponpurchase.healthshot_limit": "{lightred}You can't carry any more healthshots! (Limit: {0})",
+  "k4.weaponpurchase.purchase_success": "{lime}You have successfully purchased a {0}!"
+}
