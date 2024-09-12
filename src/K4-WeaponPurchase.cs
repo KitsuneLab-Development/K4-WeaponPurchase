@@ -42,7 +42,8 @@ namespace K4WeaponPurchase
 
 		public override void Load(bool hotReload)
 		{
-			WeaponDatabase.Weapons.Where(w => Config.AllowedWeapons.Any(cw => w.ClassName == cw)).ToList().ForEach(w =>
+			var allowedWeapons = Config.AllowedWeapons.Any() ? Config.AllowedWeapons : WeaponDatabase.Weapons.Select(w => w.ClassName).ToList();
+			WeaponDatabase.Weapons.Where(w => allowedWeapons.Any(cw => w.ClassName == cw)).ToList().ForEach(w =>
 			{
 				int price = Config.CustomPrices.TryGetValue(w.ClassName, out int customPrice) ? customPrice : w.Price;
 
