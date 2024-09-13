@@ -29,7 +29,7 @@ namespace K4WeaponPurchase
 		public override string ModuleName => "Weapon Purchase";
 		public override string ModuleAuthor => "K4ryuu";
 		public override string ModuleDescription => "Purchase weapons, grenades and more through commands";
-		public override string ModuleVersion => "1.0.0";
+		public override string ModuleVersion => "1.0.1";
 
 		public required PluginConfig Config { get; set; } = new PluginConfig();
 
@@ -42,8 +42,7 @@ namespace K4WeaponPurchase
 
 		public override void Load(bool hotReload)
 		{
-			var allowedWeapons = Config.AllowedWeapons.Any() ? Config.AllowedWeapons : WeaponDatabase.Weapons.Select(w => w.ClassName).ToList();
-			WeaponDatabase.Weapons.Where(w => allowedWeapons.Any(cw => w.ClassName == cw)).ToList().ForEach(w =>
+			WeaponDatabase.Weapons.Where(w => Config.AllowedWeapons.Any(cw => w.ClassName == cw)).ToList().ForEach(w =>
 			{
 				int price = Config.CustomPrices.TryGetValue(w.ClassName, out int customPrice) ? customPrice : w.Price;
 
@@ -53,6 +52,12 @@ namespace K4WeaponPurchase
 					{
 						if (controller is null || controller.InGameMoneyServices is null)
 							return;
+
+						if (controller.PlayerPawn.Value?.Health <= 0 || controller.Team <= CsTeam.Spectator)
+						{
+							controller.PrintToChat($" {Localizer["k4.general.prefix"]} {Localizer["k4.weaponpurchase.dead"]}");
+							return;
+						}
 
 						if (controller.InGameMoneyServices.Account < price)
 						{
@@ -110,7 +115,7 @@ namespace K4WeaponPurchase
 						controller.InGameMoneyServices!.Account -= price;
 						Utilities.SetStateChanged(controller, "CCSPlayerController", "m_pInGameMoneyServices");
 						controller.GiveNamedItem(w.ClassName);
-						controller.PrintToChat($" {Localizer["k4.general.prefix"]} {Localizer["k4.weaponpurchase.purchase_success", w.DisplayName]}");
+						controller.PrintToChat($" {Localizer["k4.general.prefix"]} {Localizer["k4.weaponpurchase.purchase_success", w.DisplayName, price]}");
 					});
 				});
 			});
