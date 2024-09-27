@@ -6,5 +6,7 @@
   "k4.weaponpurchase.flashbang_limit": "{lightred}You can't carry any more flashbangs! (Limit: {0})",
   "k4.weaponpurchase.default_limit": "{lightred}You can't carry any more of this grenade type! (Limit: {0})",
   "k4.weaponpurchase.healthshot_limit": "{lightred}You can't carry any more healthshots! (Limit: {0})",
-  "k4.weaponpurchase.purchase_success": "{lime}You have successfully purchased a {0} for {1}$!"
+  "k4.weaponpurchase.purchase_success": "{lime}You have successfully purchased a {0} for {1}$!",
+  "k4.weaponpurchase.not_in_buyzone": "{lightred}You need to be in a buy zone to buy weapons!",
+  "k4.weaponpurchase.buytime_ended": "{lightred}Buy time has ended, you can't buy weapons anymore!"
 }

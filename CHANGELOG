@@ -1,3 +1,8 @@
+-- 2024. 09. 27 - v1.0.2
+
+- feat: Added possibility to check buy time
+- feat: Added possibility to check buy zones
+
 -- 2024. 09. 13 - v1.0.1
 
 - feat: Added purchase price to success message

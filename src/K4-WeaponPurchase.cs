@@ -19,6 +19,12 @@ namespace K4WeaponPurchase
 			{ "weapon_healthshot", 1000 }
 		};
 
+		[JsonPropertyName("CheckBuyZone")]
+		public bool CheckBuyZone { get; set; } = true;
+
+		[JsonPropertyName("CheckBuyTime")]
+		public bool CheckBuyTime { get; set; } = true;
+
 		[JsonPropertyName("ConfigVersion")]
 		public override int Version { get; set; } = 1;
 	}
@@ -29,7 +35,7 @@ namespace K4WeaponPurchase
 		public override string ModuleName => "Weapon Purchase";
 		public override string ModuleAuthor => "K4ryuu";
 		public override string ModuleDescription => "Purchase weapons, grenades and more through commands";
-		public override string ModuleVersion => "1.0.1";
+		public override string ModuleVersion => "1.0.2";
 
 		public required PluginConfig Config { get; set; } = new PluginConfig();
 
@@ -52,6 +58,18 @@ namespace K4WeaponPurchase
 					{
 						if (controller is null || controller.InGameMoneyServices is null)
 							return;
+
+						if (Config.CheckBuyZone && controller.PlayerPawn.Value?.InBuyZone == false)
+						{
+							controller.PrintToChat($" {Localizer["k4.general.prefix"]} {Localizer["k4.weaponpurchase.not_in_buyzone"]}");
+							return;
+						}
+
+						if (Config.CheckBuyTime && Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").First().GameRules?.BuyTimeEnded == true)
+						{
+							controller.PrintToChat($" {Localizer["k4.general.prefix"]} {Localizer["k4.weaponpurchase.buytime_ended"]}");
+							return;
+						}
 
 						if (controller.PlayerPawn.Value?.Health <= 0 || controller.Team <= CsTeam.Spectator)
 						{
